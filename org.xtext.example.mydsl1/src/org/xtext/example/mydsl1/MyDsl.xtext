@@ -1,0 +1,25 @@
+grammar org.xtext.example.mydsl1.MyDsl with org.eclipse.xtext.common.Terminals
+
+generate myDsl "http://www.xtext.org/example/mydsl1/MyDsl"
+
+Model:
+	ifs+=Interface*
+	specs+=Spec*
+;
+	
+Interface:
+	'interface' name=ID
+;
+	
+Spec:
+	{Spec} 'spec' part=Part
+;
+
+Part:
+	name=ID (interfaces+=[Interface] (',' interfaces+=[Interface])*)?
+;
+
+// hack to fix metamodel
+Spec2 returns Spec:
+	usedInterfaces+=[Interface]
+;
